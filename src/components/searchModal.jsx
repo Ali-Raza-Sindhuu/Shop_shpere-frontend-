@@ -9,12 +9,12 @@ const SearchModal = ({ isOpen, onClose }) => {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    if (isOpen) {
-      inputRef.current?.focus();
-    } else {
-      setQuery("");
-    }
-  }, [isOpen]);
+  if (isOpen) {
+    inputRef.current?.focus();
+  } else {
+    setTimeout(() => setQuery(""), 0);
+  }
+}, [isOpen]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
