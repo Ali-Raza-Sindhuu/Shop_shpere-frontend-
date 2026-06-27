@@ -4,25 +4,29 @@ import { Crown, Heart, Layers, Users, InfinityIcon } from "lucide-react";
 
 const CARDS = [
   {
-    image: "https://framerusercontent.com/images/pEBq80I4IeHuPWY6F4zlaCYPo.png?width=600&height=600",
+    image:
+      "https://framerusercontent.com/images/pEBq80I4IeHuPWY6F4zlaCYPo.png?width=600&height=600",
     icon: <InfinityIcon size={18} strokeWidth={1.5} className="text-white" />,
     stat: "10M+",
     label: "Pieces worn daily",
   },
   {
-    image: "https://framerusercontent.com/images/gXeXEdJCGwcyaYKiWNSbF2Wf5Yg.jpeg?width=405&height=720",
+    image:
+      "https://framerusercontent.com/images/gXeXEdJCGwcyaYKiWNSbF2Wf5Yg.jpeg?width=405&height=720",
     icon: <Heart size={18} strokeWidth={1.5} className="text-white" />,
     stat: "98%",
     label: "Customer Satisfaction",
   },
   {
-    image: "https://framerusercontent.com/images/nvGX8w2EmNhLJbIVjLMsGKTV4I.jpeg?width=640&height=640",
+    image:
+      "https://framerusercontent.com/images/nvGX8w2EmNhLJbIVjLMsGKTV4I.jpeg?width=640&height=640",
     icon: <Layers size={18} strokeWidth={1.5} className="text-white" />,
     stat: "300+",
     label: "Essential Styles",
   },
   {
-    image: "https://framerusercontent.com/images/k4gwIeU3rPPXIyxSMgWszrewfy8.png?width=600&height=452",
+    image:
+      "https://framerusercontent.com/images/k4gwIeU3rPPXIyxSMgWszrewfy8.png?width=600&height=452",
     icon: <Users size={18} strokeWidth={1.5} className="text-white" />,
     stat: "500K+",
     label: "Community worldwide",
@@ -34,16 +38,16 @@ const AboutSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <section className="w-full bg-[#f8f8f8] px-4 py-12 sm:px-6 md:px-10 lg:px-16 xl:px-28">
+    <section className="w-full bg-[#f8f8f8] py-12 sm:py-16 lg:py-20 px-4 sm:px-6">
       <div className="mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col items-center text-center gap-4 sm:gap-6 mb-10 sm:mb-12 md:mb-16"
+          className="flex flex-col items-center text-center gap-4 sm:gap-5 lg:gap-6 mb-10 sm:mb-14 lg:mb-16"
         >
-          <div className="inline-flex items-center gap-2 bg-white rounded-full px-4 py-2 border border-black/6 shadow-sm">
+          <div className="inline-flex items-center gap-2 bg-white rounded-full px-3 sm:px-4 py-2 border border-black/6 shadow-sm">
             <div className="w-7 h-7 bg-black rounded-full flex items-center justify-center">
               <Crown size={13} className="text-white" strokeWidth={1.5} />
             </div>
@@ -52,20 +56,27 @@ const AboutSection = () => {
             </span>
           </div>
 
-          <p className="text-xl sm:text-2xl md:text-3xl font-medium text-black leading-snug tracking-tight max-w-2xl">
+          <p className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-medium text-black leading-snug tracking-tight max-w-3xl">
             More than fashion — a commitment to intentional design. Sleek
             silhouettes, modern ease, your personal journey.
           </p>
         </motion.div>
 
-        <div ref={ref} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+        <div
+          ref={ref}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 lg:gap-6"
+        >
           {CARDS.map((card, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 50 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="relative overflow-hidden rounded-2xl cursor-pointer aspect-[3/4] min-h-[280px] sm:min-h-0"
+              transition={{
+                duration: 0.7,
+                delay: i * 0.1,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="relative overflow-hidden rounded-2xl cursor-pointer aspect-[3/4] min-h-[260px] sm:min-h-[320px] lg:min-h-[360px] "
             >
               <img
                 src={card.image}

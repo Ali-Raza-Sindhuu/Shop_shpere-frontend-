@@ -90,9 +90,10 @@ const ReviewSection = () => {
   const review = REVIEWS[active];
 
   return (
-    <section className="bg-[#f8f8f8] px-4 py-10 sm:px-6 md:px-10 lg:px-16 xl:px-28">
-      <div className="flex flex-col gap-6 sm:gap-8 lg:gap-10">
-        <div className="flex flex-col items-center text-center gap-3 sm:gap-4">
+    <section className="bg-[#f8f8f8] py-10 px-4 sm:px-6">
+  <div className="mx-auto max-w-7xl">
+        <div  className="flex flex-col gap-6 sm:gap-8 lg:gap-10">
+          <div className="flex flex-col items-center text-center gap-3 sm:gap-4">
           <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white text-xs font-medium text-black shadow-sm overflow-hidden">
             <span className="bg-black rounded-full p-2 text-white">
               <MessageCircleDashed size={13} />
@@ -180,6 +181,7 @@ const ReviewSection = () => {
               </button>
             ))}
           </div>
+        </div>
         </div>
       </div>
     </section>

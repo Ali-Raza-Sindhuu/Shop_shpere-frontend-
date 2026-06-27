@@ -9,12 +9,12 @@ const SearchModal = ({ isOpen, onClose }) => {
   const inputRef = useRef(null);
 
   useEffect(() => {
-  if (isOpen) {
-    inputRef.current?.focus();
-  } else {
-    setTimeout(() => setQuery(""), 0);
-  }
-}, [isOpen]);
+    if (isOpen) {
+      inputRef.current?.focus();
+    } else {
+      setTimeout(() => setQuery(""), 0);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -28,7 +28,11 @@ const SearchModal = ({ isOpen, onClose }) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-start justify-center bg-black/20 p-4 pt-24 backdrop-blur-sm"
+          className="
+            fixed inset-0 z-50 flex items-start justify-center
+            bg-black/30 backdrop-blur-sm
+            p-3 sm:p-4 pt-10 sm:pt-20
+          "
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -40,39 +44,55 @@ const SearchModal = ({ isOpen, onClose }) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.97, y: -10 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="w-full max-w-xl rounded-3xl bg-white p-6 shadow-2xl"
+            className="
+              w-full
+              max-w-[95%] sm:max-w-xl lg:max-w-2xl
+              rounded-2xl sm:rounded-3xl
+              bg-white
+              p-4 sm:p-6 lg:p-7
+              shadow-2xl
+            "
           >
-            <div className="flex items-center gap-3 border-b border-gray-100 pb-4">
-              <Search size={18} className="text-gray-400" />
+            {/* INPUT */}
+            <div className="flex items-center gap-3 border-b border-gray-100 pb-3 sm:pb-4">
+              <Search size={18} className="text-gray-400 shrink-0" />
+
               <input
                 ref={inputRef}
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search for products, collections..."
-                className="flex-1 text-sm text-gray-900 outline-none placeholder:text-gray-400"
+                className="
+                  flex-1
+                  text-sm sm:text-base
+                  text-gray-900
+                  outline-none
+                  placeholder:text-gray-400
+                "
               />
+
               {query && (
                 <button
                   onClick={() => setQuery("")}
-                  aria-label="Clear search"
                   className="text-gray-400 hover:text-gray-700"
                 >
                   <X size={16} />
                 </button>
               )}
+
               <button
                 onClick={onClose}
-                aria-label="Close search"
-                className="rounded-full p-1.5 text-gray-500 hover:bg-gray-100 hover:text-gray-900"
+                className="rounded-full p-1.5 text-gray-500 hover:bg-gray-100"
               >
                 <X size={18} />
               </button>
             </div>
 
-            <div className="pt-4">
+            {/* CONTENT */}
+            <div className="pt-4 sm:pt-5">
               {query ? (
-                <p className="py-8 text-center text-sm text-gray-500">
+                <p className="py-10 sm:py-12 text-center text-sm text-gray-500">
                   No results yet — hook this up to your search logic
                 </p>
               ) : (
@@ -80,12 +100,20 @@ const SearchModal = ({ isOpen, onClose }) => {
                   <p className="mb-3 text-xs font-medium uppercase tracking-wide text-gray-400">
                     Trending
                   </p>
+
                   <div className="flex flex-wrap gap-2">
                     {TRENDING.map((term) => (
                       <button
                         key={term}
                         onClick={() => setQuery(term)}
-                        className="rounded-full border border-gray-200 px-3 py-1.5 text-xs text-gray-700 transition hover:bg-gray-50"
+                        className="
+                          rounded-full border border-gray-200
+                          px-3 py-1.5
+                          text-xs sm:text-sm
+                          text-gray-700
+                          hover:bg-gray-50
+                          transition
+                        "
                       >
                         {term}
                       </button>

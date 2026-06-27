@@ -15,20 +15,11 @@ import {
   selectCartSubtotal,
   clearCart,
 } from "../store/slice/cartSlice";
+import OrderSummary from "../components/OrderSummary";
 
 const STEPS = ["Shipping", "Payment", "Review"];
 
-const parsePrice = (price) =>
-  typeof price === "number"
-    ? price
-    : parseFloat(String(price).replace(/[^0-9.]/g, "")) || 0;
 
-// ─── Card input helpers ──────────────────────────────────────────────────────
-// These give the layout realistic Stripe-like input behavior (formatting,
-// brand detection) even though no real card processing happens yet.
-// TODO(stripe): once wired up, none of this manual formatting/detection is
-// needed — Stripe's PaymentElement handles formatting, validation, and brand
-// icons internally. Delete this block when swapping in the real element.
 
 const detectCardBrand = (digits) => {
   if (/^4/.test(digits)) return "visa";
@@ -62,7 +53,6 @@ const CARD_BRAND_LABEL = {
   discover: "Discover",
 };
 
-// ─── Step indicator — echoes the nav's gold underline-on-active motif ──────
 const StepIndicator = ({ currentStep }) => (
   <div className="flex items-center gap-6 border-b border-black/10 pb-5">
     {STEPS.map((step, index) => {
@@ -90,14 +80,13 @@ const StepIndicator = ({ currentStep }) => (
   </div>
 );
 
-// ─── Field ───────────────────────────────────────────────────────────────────
 const Field = ({ label, span = 1, ...props }) => (
   <label
     className={`flex flex-col gap-1.5 ${
       span === 2 ? "col-span-2" : "col-span-1"
     }`}
   >
-    <span className="font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-black/60">
+    <span className="font-mono text-[14px] font-medium uppercase tracking-widest text-black">
       {label}
     </span>
     <input
@@ -107,75 +96,6 @@ const Field = ({ label, span = 1, ...props }) => (
   </label>
 );
 
-// ─── Order Summary (sticky right column) ────────────────────────────────────
-const OrderSummary = ({ items, subtotal, shipping, total }) => (
-  <div className="flex flex-col gap-6 rounded-xl border border-black/10 bg-[#f8f8f8] p-6">
-    <h2 className="font-display text-[18px] font-semibold text-black">
-      Order Summary
-    </h2>
-
-    <div className="flex flex-col gap-4">
-      {items.map((item) => (
-        <div key={item.lineId} className="flex gap-3">
-          <div className="relative h-16 w-13 flex-shrink-0 overflow-hidden rounded-lg bg-[#eeeeee]">
-            <img
-              src={item.image}
-              alt={item.title}
-              className="h-full w-full object-cover object-center"
-            />
-            <span className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-black px-1 font-mono text-[10px] font-semibold text-white">
-              {item.quantity}
-            </span>
-          </div>
-          <div className="flex flex-1 flex-col gap-0.5">
-            <p className="text-[13px] font-medium leading-snug text-black">
-              {item.title}
-            </p>
-            {item.size && (
-              <p className="text-[12px] text-black/50">Size: {item.size}</p>
-            )}
-          </div>
-          <p className="font-price text-[13px] font-medium text-black tabular-nums">
-            ${(parsePrice(item.price) * item.quantity).toFixed(2)}
-          </p>
-        </div>
-      ))}
-    </div>
-
-    <div className="flex flex-col gap-2 border-t border-dashed border-black/15 pt-4 text-[13px]">
-      <div className="flex items-center justify-between">
-        <span className="text-black/60">Subtotal</span>
-        <span className="font-price tabular-nums text-black">
-          ${subtotal.toFixed(2)}
-        </span>
-      </div>
-      <div className="flex items-center justify-between">
-        <span className="text-black/60">Shipping</span>
-        <span className="font-price tabular-nums text-black">
-          {shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}
-        </span>
-      </div>
-    </div>
-
-    <div className="flex items-center justify-between border-t border-black/10 pt-4">
-      <span className="font-mono text-[12px] uppercase tracking-[0.1em] text-black">
-        Total
-      </span>
-      <span className="font-price text-[20px] font-semibold tabular-nums text-black">
-        ${total.toFixed(2)}
-      </span>
-    </div>
-
-    <div className="flex items-center gap-2 rounded-lg bg-[#ecece9] px-3 py-2.5">
-      <Lock size={13} className="text-black/50" />
-      <span className="text-[12px] text-black/50">
-        Secure checkout, encrypted end to end
-      </span>
-    </div>
-  </div>
-);
-
-// ─── Main Component ──────────────────────────────────────────────────────────
 const Checkout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -246,10 +166,6 @@ const Checkout = () => {
   const handlePlaceOrder = () => {
     if (!acceptTerms) return;
     setPlacingOrder(true);
-    // TODO(stripe): replace this simulated delay with a real call —
-    // confirm the PaymentIntent client-side (stripe.confirmPayment), then on
-    // success call your backend to create the order record and trigger the
-    // confirmation email send (e.g. via Resend/SendGrid from an API route).
     setTimeout(() => {
       dispatch(clearCart());
       navigate("/");
@@ -388,12 +304,6 @@ const Checkout = () => {
                   </span>
                 </div>
 
-                {/* TODO(stripe): swap this entire card panel for
-                    <Elements stripe={stripePromise} options={{ clientSecret }}>
-                      <PaymentElement />
-                    </Elements>
-                    Layout below mirrors what PaymentElement renders so the
-                    swap won't shift the surrounding page. */}
                 <div className="flex flex-col gap-4 rounded-xl border border-black/15 bg-white p-5">
                   <label className="flex flex-col gap-1.5">
                     <span className="font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-black/60">

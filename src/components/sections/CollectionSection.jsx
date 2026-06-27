@@ -15,9 +15,10 @@ const IMAGES3 = [img31];
 
 const CollectionSection = () => {
   return (
-    <section className="bg-[#f8f8f8] px-4 py-10 sm:px-6 md:px-28 lg:px-26 xl:px-28">
-      <div className="flex flex-col gap-6 sm:gap-8 lg:gap-10">
-        <SectionHeader
+    <section className="bg-[#f8f8f8] px-4 py-10 sm:px-6">
+  <div className="mx-auto max-w-7xl">
+       <div className="flex flex-col gap-6 sm:gap-8 lg:gap-10">
+         <SectionHeader
           badge="Our Collections"
           icon={<BsCollection size={13} />}
           heading={
@@ -60,6 +61,7 @@ const CollectionSection = () => {
           priceFrom="$25.00"
           priceTo="$90.00"
         />
+       </div>
       </div>
     </section>
   );

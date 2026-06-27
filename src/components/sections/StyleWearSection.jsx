@@ -112,10 +112,11 @@ const styleCards2 = [
   },
 ];
 
+const allCards = [...styleCards1, ...styleCards2];
 const StyleWearSection = () => {
   return (
-    <section className="bg-[#f8f8f8] px-4 py-10 sm:px-6 md:px-10 lg:px-16 xl:px-28">
-      <div className="mx-auto flex max-w-7xl flex-col gap-8 sm:gap-10">
+    <section className="bg-[#f8f8f8] py-10 px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl flex flex-col gap-8 sm:gap-10">
         <div className="flex flex-col items-center text-center gap-3 sm:gap-4">
           <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white text-xs font-medium text-black shadow-sm overflow-hidden">
             <span className="bg-black rounded-full p-2 text-white">
@@ -124,29 +125,35 @@ const StyleWearSection = () => {
             <span className="pr-3">What defines our wear</span>
           </span>
 
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold leading-tight tracking-wide text-black">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl">
             Where style meets ease
           </h2>
 
-          <p className="max-w-2xl text-sm sm:text-base text-black/50 leading-relaxed">
+          <p className="max-w-2xl text-sm sm:text-base lg:text-lg">
             Thoughtful design blending modern style, comfort, and versatility for
             everyday living across lifestyles.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 lg:gap-8 xl:gap-10">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {styleCards1.map((card) => (
-              <StyleCard key={card.id} card={card} />
-            ))}
-          </div>
+        <div className="grid grid-cols-1 gap-6 sm:hidden">
+  {allCards.slice(0, 3).map((card) => (
+    <StyleCard key={card.id} card={card} />
+  ))}
+</div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 xl:grid-cols-3">
-            {styleCards2.map((card) => (
-              <StyleCard key={card.id} card={card} />
-            ))}
-          </div>
-        </div>
+{/* Tablet: 4 cards */}
+<div className="hidden sm:grid lg:hidden grid-cols-2 gap-6">
+  {allCards.slice(0, 4).map((card) => (
+    <StyleCard key={card.id} card={card} />
+  ))}
+</div>
+
+{/* Laptop and above: 6 cards */}
+<div className="hidden lg:grid grid-cols-3 gap-6 lg:gap-8">
+  {allCards.map((card) => (
+    <StyleCard key={card.id} card={card} />
+  ))}
+</div>
       </div>
     </section>
   );
