@@ -61,7 +61,7 @@ const AdminDashboard = () => {
   const [section, setSection] = useState("overview");
  
   const SECTIONS = {
-    overview:   <AdminOverview />,
+    overview:   <AdminOverview  />,
     ecommerce:  <AdminEcommerce />,
     orders:     <AdminOrders />,
     products:   <AdminProducts />,
