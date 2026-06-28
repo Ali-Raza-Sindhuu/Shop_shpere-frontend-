@@ -1,6 +1,23 @@
 import { useState } from "react";
 import Card from "../layout/Card";
-import { Icon, NOTIF_ICONS, NOTIF_STYLE } from "../sections/NotificationPanel";
+import { Icon } from "../sections/NotificationPanel";
+
+
+const NOTIF_ICONS = {
+  order:   "M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2",
+  stock:   "M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01",
+  payment: "M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
+  cancel:  "M10 15 8 17 M8 15l2 2 M15 9l-3 3 3 3 M9 9l3 3-3 3 M12 1a11 11 0 1 0 0 22 11 11 0 1 0 0-22z",
+  bell:    "M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0",
+};
+
+const NOTIF_STYLE = {
+  order:   "bg-[#fff1e6] text-orange-600",
+  stock:   "bg-[#fefce8] text-[#854d0e]",
+  payment: "bg-[#eef9f1] text-[#1a7a44]",
+  cancel:  "bg-[#fef2f2] text-[#991b1b]",
+};
+
 
 const NOTIF_FILTERS = [
   { id: "all",     label: "All" },

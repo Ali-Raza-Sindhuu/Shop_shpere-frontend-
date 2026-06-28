@@ -1,20 +1,11 @@
 import { useEffect, useRef } from "react";
-import { ORDERS, PRODUCTS } from "../../data/mockData.js";
 
 // ─── Icon (inline SVG, no dep) ────────────────────────────────────────────────
-const Icon = ({ d, size = 16, className = "" }) => (
+export const Icon = ({ d, size = 16, className = "" }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
     <path d={d} />
   </svg>
 );
-
-const NOTIF_ICONS = {
-  order:   "M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2",
-  stock:   "M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01",
-  payment: "M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
-  cancel:  "M10 15 8 17 M8 15l2 2 M15 9l-3 3 3 3 M9 9l3 3-3 3 M12 1a11 11 0 1 0 0 22 11 11 0 1 0 0-22z",
-  bell:    "M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0",
-};
 
 const NOTIF_STYLE = {
   order:   "bg-[#fff1e6] text-orange-600",
@@ -23,82 +14,15 @@ const NOTIF_STYLE = {
   cancel:  "bg-[#fef2f2] text-[#991b1b]",
 };
 
-// ─── Build a notification feed straight from the existing mock data ──────────
-// (kept as a function so it stays in sync if ORDERS / PRODUCTS change)
-const buildNotifications = () => {
-  const items = [];
-
-  ORDERS.forEach((o) => {
-    if (o.status === "Pending" || o.status === "Processing") {
-      items.push({
-        id: `order-${o.id}`,
-        type: "order",
-        title: "New order placed",
-        detail: `${o.customer} ordered ${o.items} item${o.items > 1 ? "s" : ""} · $${o.total}`,
-        time: o.date,
-        unread: true,
-      });
-    }
-    if (o.status === "Delivered") {
-      items.push({
-        id: `delivered-${o.id}`,
-        type: "order",
-        title: "Order delivered",
-        detail: `${o.id} for ${o.customer} was delivered`,
-        time: o.date,
-        unread: false,
-      });
-    }
-    if (o.payment === "Refunded") {
-      items.push({
-        id: `refund-${o.id}`,
-        type: "cancel",
-        title: "Order cancelled & refunded",
-        detail: `${o.id} for ${o.customer} · $${o.total} refunded`,
-        time: o.date,
-        unread: true,
-      });
-    }
-    if (o.payment === "Paid" && o.status === "Shipped") {
-      items.push({
-        id: `paid-${o.id}`,
-        type: "payment",
-        title: "Payment received",
-        detail: `$${o.total} from ${o.customer} for ${o.id}`,
-        time: o.date,
-        unread: false,
-      });
-    }
-  });
-
-  PRODUCTS.forEach((p) => {
-    if (p.stock === 0) {
-      items.push({
-        id: `out-${p.id}`,
-        type: "stock",
-        title: "Out of stock",
-        detail: `${p.name} has no units left`,
-        time: "Today",
-        unread: true,
-      });
-    } else if (p.stock < 10) {
-      items.push({
-        id: `low-${p.id}`,
-        type: "stock",
-        title: "Low stock warning",
-        detail: `${p.name} has only ${p.stock} units left`,
-        time: "Today",
-        unread: true,
-      });
-    }
-  });
-
-  // newest / most actionable first
-  return items.sort((a, b) => (b.unread ? 1 : 0) - (a.unread ? 1 : 0));
+const NOTIF_ICONS = {
+  order:   "M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2",
+  stock:   "M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01",
+  payment: "M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
+  cancel:  "M10 15 8 17 M8 15l2 2 M15 9l-3 3 3 3 M9 9l3 3-3 3 M12 1a11 11 0 1 0 0 22 11 11 0 1 0 0-22z",
+  bell:    "M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0",
 };
-
 // ─── Single row ───────────────────────────────────────────────────────────────
-const NotificationRow = ({ n, onRead }) => (
+export const NotificationRow = ({ n, onRead }) => (
   <button
     onClick={() => onRead(n.id)}
     className={`flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-[#f8f8f8] ${
@@ -120,7 +44,7 @@ const NotificationRow = ({ n, onRead }) => (
 );
 
 // ─── Panel ────────────────────────────────────────────────────────────────────
-const NotificationPanel = ({ open, onClose, notifications, onMarkRead, onMarkAllRead, onViewAll, anchorClassName = "" }) => {
+export const NotificationPanel = ({ open, onClose, notifications, onMarkRead, onMarkAllRead, onViewAll, anchorClassName = "" }) => {
   const ref = useRef(null);
 
   const unreadCount = notifications.filter((n) => n.unread).length;
@@ -200,4 +124,3 @@ const NotificationPanel = ({ open, onClose, notifications, onMarkRead, onMarkAll
 };
 
 export default NotificationPanel;
-export { buildNotifications, NotificationRow, NOTIF_ICONS, NOTIF_STYLE, Icon };

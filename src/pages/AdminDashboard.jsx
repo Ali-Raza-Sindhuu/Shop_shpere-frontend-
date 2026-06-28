@@ -1,9 +1,5 @@
 import { useState } from "react";
 import DashboardLayout from "../components/layout/DashboardLayout";
-import {
-  ORDERS, PRODUCTS, USERS, WEEKLY_REVENUE, MONTHLY_ORDERS,
-  PROMOTIONS, EARNING_TREND,
-} from "../data/mockData.js";
 import AdminOverview from "../components/admin/AdminOverview.jsx";
 import AdminEcommerce from "../components/admin/AdminEcommerce.jsx";
 import AdminOrders from "../components/admin/AdminOrders.jsx";
