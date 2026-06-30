@@ -4,7 +4,6 @@ import SectionHeader from "../SectionHeader";
 import { Crown } from "lucide-react";
 import { products } from "../../data/products";
 
-
 const BestSeller = () => {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -15,7 +14,9 @@ const BestSeller = () => {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  const visibleProducts = isMobile ? products.slice(0, 3) : products.slice(0,6);
+  const visibleProducts = isMobile
+    ? products.slice(0, 3)
+    : products.slice(0, 6);
 
   return (
     <section className="bg-[#f8f8f8] px-5 py-12 sm:px-8 sm:py-14 md:px-12 lg:px-20 xl:px-28">
